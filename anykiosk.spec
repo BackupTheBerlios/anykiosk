@@ -5,14 +5,15 @@
 
 Name: anykiosk
 Version: %ver.%reldate
-Release: alt1
+Release: alt0.M50P.1
 
 Summary: Easy kiosk mode tuning for various programs
 License: GPL
 Group: System/Configuration/Other
 
 Url: http://unixforum.org/index.php?showtopic=117466
-Packager: Denjs <denjs@users.berlios.de>
+#Packager: Denjs <denjs@users.berlios.de>
+Packager: Andrey Cherepanov <cas@altlinux.org>
 
 Source: anykiosk-0.0.2.20101210.tar.gz
 
@@ -31,7 +32,7 @@ AnyKiosk - утилита настройки различных программ
 режим с заблокированными от изменения настройками и ограниченной 
 функциональностью. Просто отметье галочками нужные программы и
 нажмите "применить".
-Версия 0.0.2 поставляется с плагином для FireFix 3.6.
+Версия 0.0.2 поставляется с плагином для FireFox 3.6.
 
 %prep
 %setup -q
@@ -53,6 +54,9 @@ AnyKiosk - утилита настройки различных программ
 
 
 %changelog
+* Tue Dec 14 2010 Andrey Cherepanov <cas@altlinux.org> 0.0.2.20101210-alt0.M50P.1
+- backport to p5
+
 * Sun Dec 12 2010 Denjs <denjs@users.berlios.de> 0.0.2.20101210-alt1
 [ Denjs ]
 - Initial build for Sisyphus
