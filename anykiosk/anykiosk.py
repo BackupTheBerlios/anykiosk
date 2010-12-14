@@ -30,6 +30,28 @@
 #
 #===============================================================================
 
+
+import os, sys
+if os.getuid() != 0:
+    print("--------------------------------------")
+    print(" You have to be root to run AnyKiosk!")
+    print("--------------------------------------")
+
+    from PyQt4 import QtGui
+    if __name__=="__main__":
+	# создаём объект Qt-приложения и передаём его конструктору параметры командной строки:
+	app = QtGui.QApplication(sys.argv)
+	# создаём объект класса QLabel (метка), в конструкторе задаём подпись для метки:
+	#label = QtGui.QLabel(u' Вы не root !\n Вы не можете выполнить AnyKiosk от простого пользователя')    
+	QtGui.QMessageBox.information(None,u"Вы не root !",u"Вы не root ! \n\nДля запуска AnyKiosk нужны права суперпользователя.\n\nНажмите [OK] для выхода.",QtGui.QMessageBox.Ok)
+	## отображаем метку на экране:
+	#label.show()
+	#запускаем цикл обработки событий:
+	#sys.exit(app.exec_())
+    sys.exit() #quit;
+
+print("W are root. it is good!")
+
 import controller_qt
 import application
 
@@ -42,19 +64,6 @@ controller = controller_qt.Controller()
 controller.register_app(dummyFF)
 #--
 
-import sys
-
-
-#from PyQt4 import QtGui
-#if __name__=="__main__":
-#    # создаём объект Qt-приложения и передаём его конструктору параметры командной строки:
-#    app = QtGui.QApplication(sys.argv)
-#    # создаём объект класса QLabel (метка), в конструкторе задаём подпись для метки:
-#    label = QtGui.QLabel(u'Привет, мир!\nЭто самый простой пример для PyQt4.')    
-#    # отображаем метку на экране:
-#    label.show()
-#    # запускаем цикл обработки событий:
-#    sys.exit(app.exec_())
 
 controller.proceed()
 controller.main()
