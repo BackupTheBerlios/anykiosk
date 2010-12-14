@@ -1,8 +1,9 @@
-# -*- coding: UTF-8 -*-
+﻿# -*- coding: UTF-8 -*-
 #import pygtk
 #pygtk.require('2.0')
 from PyQt4 import QtGui,QtCore
 import sys
+import os
 
 class Controller:
 	apps = {}
@@ -10,17 +11,27 @@ class Controller:
 	qapp = QtGui.QApplication(sys.argv)
 	
 	def __init__(self):
-		#���� ������� �����.))))
+		#Хочу русские буквы.)))) это надо сделать до вывода каких-либо сообщений.
 		codec=QtCore.QTextCodec.codecForName('UTF-8')
 		QtCore.QTextCodec.setCodecForTr(codec)
 		QtCore.QTextCodec.setCodecForCStrings(codec)
 		QtCore.QTextCodec.setCodecForLocale(codec)
-		#self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+
+		# check superuser privileges
+		if os.getuid() != 0:
+			QtGui.QMessageBox.critical(None, 
+			    QtGui.qApp.tr("Ошибка: вы не root"),
+			    QtGui.qApp.tr("Вы не root ! \n\nДля запуска AnyKiosk нужны права суперпользователя.\n\nНажмите [OK] для выхода."), #о переводе- потом будем думать. This program is required superuser privileges.\nProgram will be terminated now. 
+			    QtGui.QMessageBox.Ok | QtGui.QMessageBox.Default,
+			    QtGui.QMessageBox.NoButton)
+			self.qapp.quit()
+			sys.exit(1)
+
 		boxLayout = QtGui.QBoxLayout(QtGui.QBoxLayout.TopToBottom);
 		
 		self.window = QtGui.QWidget()
-		self.window.resize(600,400)
-		self.window.setWindowTitle("AnyKiosk:SafeRunIt!") 
+		self.window.resize(750,440)
+		self.window.setWindowTitle("AnyKiosk. 0.0.2") 
 		self.window.setLayout(boxLayout)
 		
 		
@@ -28,86 +39,63 @@ class Controller:
 		#QtCore.QObject.connect( self.window, QtCore.SIGNAL("anySig1"), self, QtCore.SLOT("destroy") )
 		self.qapp.connect(self.qapp, QtCore.SIGNAL("lastWindowClosed()"),self.qapp, QtCore.SLOT("quit()"))
 		
-		#self.treestore = gtk.TreeStore(str, str, bool)
-		#trend = gtk.CellRendererText()
-		#chrend = gtk.CellRendererToggle()
-		#chrend.set_property("mode", gtk.CELL_RENDERER_MODE_ACTIVATABLE)
-		#chrend.set_property("activatable", True)
-		#chrend.connect("toggled", self.cell_toggled_cb, self.treestore)
-		#
-		#self.treeview = gtk.TreeView(self.treestore)
 		self.treestore=QtGui.QTreeWidget()
-		self.treestore.setColumnCount(3)
-		self.treestore.setColumnWidth(0,150)
-		self.treestore.setColumnWidth(1,350)
-		self.treestore.setColumnWidth(2,50)
+		self.treestore.setColumnCount(3)  #check&description; value; tech-key
+
+		# Hide table column titles
+		# Note: was introduced in Qt 4.4
+#		self.treestore.setHeaderHidden(True)
+
+		# Resize option description by content
+		self.treestore.resizeColumnToContents(1)
+
 		self.treestore.setAlternatingRowColors(True)
 		self.treeview=self.treestore
-
-
-		#for i in zip(["Option", "Description", "Value"], [trend, trend, chrend], range(0,3)):
-		#	column = gtk.TreeViewColumn(i[0], i[1], text=i[2])
-		#	column.set_resizable(True)
-		#	if i[2] == 1: column.set_expand(True)
-		#	if i[2] == 2: column.add_attribute(chrend, "active", 2)
-		#	self.treeview.append_column(column)
 		
-		apply_btn = QtGui.QPushButton("Apply")
+		help_btn = QtGui.QPushButton(u"Помощь")
+		showKeys_btn = QtGui.QPushButton(u"Показать Ключи")
+		apply_btn = QtGui.QPushButton(u"Установить")
 		#restore_btn = QtGui.QPushButton("Restore")
-		close_btn = QtGui.QPushButton("Close")
+		close_btn = QtGui.QPushButton(u"Закрыть")
 		
-		#apply_btn.connect("clicked", self.apply_cb)
-		#close_btn.connect("clicked", self.close_cb)
 		#QtCore.QObject.connect( apply_btn, QtCore.SIGNAL("clicked()"), self, QtCore.SLOT("apply_cb()") )
 		QtCore.QObject.connect( apply_btn, QtCore.SIGNAL("clicked()"), self.apply_cb )
 		QtCore.QObject.connect( close_btn, QtCore.SIGNAL("clicked()"), self.close_cb )
+		QtCore.QObject.connect( showKeys_btn, QtCore.SIGNAL("clicked()"), self.keys_cb )
+		QtCore.QObject.connect( help_btn, QtCore.SIGNAL("clicked()"), self.help_cb )
 		
-		#hbox = gtk.HBox()
-		#for w in [apply_btn, restore_btn, close_btn]: hbox.pack_start(w)
-		#btn_bar = gtk.Alignment(1.0, 0.0, 0.0, 0.0)
-		#btn_bar.add(hbox)
+
+		boxLayout.addWidget(self.treeview)
+
 		button_hboxLayout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight);
 		button_window = QtGui.QWidget()
 		button_window.setLayout(button_hboxLayout)
 		button_hboxLayout.addStretch(80)
-		button_hboxLayout.addWidget(apply_btn)
+
+		button_hboxLayout.addWidget(help_btn)
+		button_hboxLayout.addSpacing(50) 
+		button_hboxLayout.addWidget(showKeys_btn)
+		button_hboxLayout.addSpacing(50) 
 		button_hboxLayout.addWidget(apply_btn)
 		#button_hboxLayout.addWidget(restore_btn)
 		button_hboxLayout.addWidget(close_btn)
 		boxLayout.addWidget(button_window)
 
-		#vbox = gtk.VBox()
-		#vbox.pack_start(self.treeview)
-		#vbox.pack_start(btn_bar, False, False, 0)
-		#self.window.add(vbox)
-		##���� ������ ������ ���������:
-		boxLayout.addWidget(self.treeview)
-
-
-		#for w in [apply_btn, restore_btn, close_btn, hbox, btn_bar, self.treeview]: w.show()
-		#vbox.show()
-		#self.window.show()
 		self.window.show()
+		self.treestore.setColumnWidth(0,450)
+		self.treestore.setColumnWidth(1,80)
+		self.treestore.setColumnWidth(2,150)
+		self.treestore.hideColumn(2)
+
 	
 	def main(self):
-		#gtk.main()
 		sys.exit(self.qapp.exec_())
 		
 	def destroy(self, widget, data=None):
-		#gtk.main_quit()
 		self.qapp.quit();
 	
 	#def cell_toggled_cb(self, cell, path, treestore):
-		#treestore[path][2] = not treestore[path][2]
-		#children = treestore[path].iterchildren()
-		#while True:
-		#	try:
-		#		x = children.next()
-		#		x[2] = treestore[path][2]
-		#	except StopIteration:
-		#		break
-		##�� ����� - ������ ��� � QTreeWidget ������� ���� ��� ��������
-		
+		##не нужно - потому что в QTreeWidget галочки сами так работают
 	
 	def register_app(self, module): #name, app, descr):
 		self.apps[QtCore.QString(module.name())] = module.object() #app
@@ -124,49 +112,88 @@ class Controller:
 			treeWidgetEl.setFlags(treeWidgetEl.flags()|QtCore.Qt.ItemIsUserCheckable)
 			treeWidgetEl.setFlags(treeWidgetEl.flags()|QtCore.Qt.ItemIsTristate) #need to be added for child checks update ok
 			treeWidgetEl.setText(0,app_name)
-			treeWidgetEl.setText(1,descr)
-			treeWidgetEl.setData(2,QtCore.Qt.CheckStateRole,QtCore.Qt.Checked)
+#			treeWidgetEl.setText(1,descr)
+#			treeWidgetEl.setData(2,QtCore.Qt.CheckStateRole,QtCore.Qt.Checked)
 			self.treestore.addTopLevelItem(treeWidgetEl)
 			master_iter = treeWidgetEl
 			
+			# Add application options
 			for opt in app.get_options().keys():
 				#self.treestore.append(master_iter, [opt, app.get_descr(opt), app.get_option(opt)])
 				treeWidgetEl2=QtGui.QTreeWidgetItem(treeWidgetEl)
 				treeWidgetEl2.setFlags(treeWidgetEl.flags()|QtCore.Qt.ItemIsUserCheckable)
-				treeWidgetEl2.setText(0,opt)
-				treeWidgetEl2.setText(1,app.get_descr(opt))
-				treeWidgetEl2.setData(2,QtCore.Qt.CheckStateRole,app.get_option(opt))
+				# Checkbox
+				if app.get_option(opt): #нужно-ли фиксировать данную опцию
+					treeWidgetE12.setCheckState(0, QtCore.Qt.Checked)
+				else:
+					treeWidgetEl2.setCheckState(0, QtCore.Qt.Unchecked)
+				# Option description
+				treeWidgetEl2.setText(0, app.get_descr(opt)) #описание опции
+				# Option key
+				treeWidgetEl2.setData(0, 100, QtCore.QVariant(opt))
+				treeWidgetEl2.setText(1, app.get_value(opt) ) # значение опции 
+				treeWidgetEl2.setText(2, opt)  #название опции
 				
+	def help_cb(self):
+		helpMsg=u"""
+Отмеченные галочками опции будут заблокированны в настраивемой программе.
+Блокировка подразумевает фиксацию в заданном значении и защиту от изменения, 
+или определенное функциональное ограничение.
+
+Все не отмеченные опции будут сняты с блокировки.
+
+Если блокируемая опция требует определенное  значение - оно указано во второй колонке.
+
+Кнопка [показать ключи] отображает технические имена пунктов конфигурационного файла,
+(смотрите техническое описание настраиваемой программы).
+
+Сайт программы AnyKiosk: http://anykiosk.berlios.de
+Форум: http://unixforum.org/index.php?showtopic=120779
+Авторы: Denjs, Minoru-kun, Skull (Cas)
+
+"""
+		QtGui.QMessageBox.information(None,u"AnyKiosk: Краткая помощь",helpMsg,QtGui.QMessageBox.Ok)
+
+
+	def keys_cb(self):
+		widthNewCol=120  # ширина новой колонки
+		if self.treestore.isColumnHidden(2):
+			self.treestore.showColumn( 2)
+			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)-widthNewCol)
+			self.treestore.setColumnWidth(1,widthNewCol)
+			#print ("def keys_cb: show")
+		else:
+			self.treestore.hideColumn( 2)
+			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)+widthNewCol)
+			#print ("def keys_cb: hide")
+		
+
 	#def apply_cb(self, button):
 	def apply_cb(self):
 		i = 0
 		while i<self.treestore.topLevelItemCount():
 			try:
-				#master_row = self.treestore[str(i)]
 				master_row = self.treestore.topLevelItem(i)
 				i=i+1
 				#if (master_row==0):
 				#  break
 				
 				i = i + 1
-				#app_name = master_row[0]
 				app_name = master_row.text(0)
 				
-				#children = master_row.iterchildren()
 				childrencount=master_row.childCount()
 				childrencount_i=0;
 				
 				app = self.apps[app_name]
-				#while True:
 				while childrencount_i<childrencount :
 					try:
-						#x = children.next()
 						x=master_row.child(childrencount_i)
 						childrencount_i=childrencount_i+1;
 						
-						#app.set_option(x[0], x[2])
-						#print "cp[00166]",x.text(0),"=", x.text(2)
-						app.set_option(QtCore.QString(x.text(0)), (x.checkState(2)==QtCore.Qt.Checked) )
+						option_key = x.data(0, 100).toString()
+						option_status = (x.checkState(0)==QtCore.Qt.Checked)
+						#print option_key, option_status
+						app.set_option(option_key, option_status)
 						
 					except StopIteration:
 						break
@@ -176,5 +203,4 @@ class Controller:
 	
 	#def close_cb(self, button):
 	def close_cb(self):
-		#quit()
 		self.qapp.quit();

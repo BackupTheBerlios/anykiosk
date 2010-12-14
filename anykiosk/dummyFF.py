@@ -16,209 +16,181 @@ import os
 class DummyFF(application.Application):
 	
 #*******************************************************************************
-	optionsArray = {
-	'lockPref("browser.startup.homepage", "about:blank");':u"""
-Устанавливаем стартовую 
-страницу about:blank
-""",
+	optionsArray_registry = {
+	#'TEST.OPTION.NAME#TESTTYPE#TESTVALUE':u"""TEST DESCRIPTION""",
+
+	#'lockPref("browser.startup.homepage", "about:blank");':u"""Установить домашнюю страницу пустой (about:blank)""",
+	'browser.startup.homepage#string#about:blank': u"""Установить домашнюю страницу пустой (about:blank)""",
 	
-	'lockPref("browser.startup.page", 0);':u"""
-Та же настройка, что и browser.startup.homepage, 
-делаем стартовой страницей - пустую.
-Просто на всякий случай.
-""",
+	#'lockPref("browser.startup.page", 0);':u"""Открывать пустую страницу при запуске браузера""",
+	'browser.startup.page#int#0': u"""Открывать пустую страницу при запуске браузера""",
 	
-	'lockPref("browser.tabs.autoHide", false);':"""
-Запрещаем пропадать панельке с tab'ами, 
-когда ни один tab не открыт.
-Просто мне так больше нравится :) 
-""",
+	#'lockPref("browser.tabs.autoHide", false);':"""Всегда показывать панель вкладок""",
+	'browser.tabs.autoHide#bool#false':u"""Всегда показывать панель вкладок""",
 	
-	'lockPref("network.proxy.type",0);':"""
-Никаких прокси-серверов.
-Прямой доступ к интернету.
-""",
+	#'lockPref("network.proxy.type",0);':"""Не использовать прокси-сервер""",
+	'network.proxy.type#true#0':u"""Не использовать прокси-сервер""",
 	
-	'lockPref("privacy.sanitize.sanitizeOnShutdown", true);':"""
-Чистим личные данные пользователей 
-после закрытия программы.
-""",
+	#'lockPref("privacy.sanitize.sanitizeOnShutdown", true);':"""Всегда удалять личные данные пользователя при закрытии браузера""",
+	'privacy.sanitize.sanitizeOnShutdown#bool#true':u"""Всегда удалять личные данные пользователя при закрытии браузера""",
 	
-	'lockPref("privacy.sanitize.promptOnSanitize", false);':"""
-к "Чистим личные данные пользователей":,
-причем , не консультируясь по этому поводу с ними.
-""",
+	#'lockPref("privacy.sanitize.promptOnSanitize", false);':
+	'privacy.sanitize.promptOnSanitize#bool#false':
+u"""Не спрашивать подтверждение 
+перед удалением личных данных пользователя""",
 	
-	'lockPref("privacy.item.sessions", true);':"""
-Чистим все SSL сессии.
-""",
+	#'lockPref("privacy.item.sessions", true);':
+	'privacy.item.sessions#bool#true':
+"""Разрешить очистку сеансов SSL 
+в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.passwords", true);':"""
-чиcтим все пароли, если они 
-каким-то образом сохранились.
-""",
+	#'lockPref("privacy.item.passwords", true);':
+	'privacy.item.passwords#bool#true':
+"""Разрешить очистку паролей 
+в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.history", true);':"""
-Удаляем всю history, чтобы никто не знал, 
-что школьники лазят по порно-сайтам
-""",
+	#'lockPref("privacy.item.history", true);':
+	'privacy.item.history#bool#true':
+"""Разрешить очистку журнала посещений
+в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.downloads", true);':"""
-Удаляем список скаченных программ. 
-(а то скачать скачают, а вот список скаченных 
-программ, не всегда чистят за собой).
-""",
+	#'lockPref("privacy.item.downloads", true);':
+	'privacy.item.downloads#bool#true':
+"""Разрешить очистку журнала загрузок
+ в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.formdata", true);':"""
-Чистим данные введенные в формы.
-""",
+	#'lockPref("privacy.item.formdata", true);':
+	'privacy.item.formdata#bool#true':
+"""Разрешить очистку данных форм
+ в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.cookies", true);':"""
-Чистим печенюшки :)
-""",
+	#'lockPref("privacy.item.cookies", true);':
+	'privacy.item.cookies#bool#true':
+"""Разрешить очистку куки (cookies) 
+в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.cache", true);':"""
-никакого кеширования (?).
-""",
+	#'lockPref("privacy.item.cache", true);':
+	'privacy.item.cache#bool#true':
+"""Разрешить очистку кэша 
+в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("browser.formfill.enable", false);':"""
-Не сохраняем данные, введенные в формы.
-""",
+	#'lockPref("browser.formfill.enable", false);':"""Не сохранять введенные в формы и панель поиска данные""",
+	'browser.formfill.enable#bool#false':"""Не сохранять введенные в формы и панель поиска данные""",
 	
-	'lockPref("browser.search.update", false);':"""
-Не ищем обновления плагинов для поиска.
-""",
+	#'lockPref("browser.search.update", false);':"""Не проверять обновления поисковых плагинов""",
+	'browser.search.update#bool#false':"""Не проверять обновления поисковых плагинов""",
 	
-	'lockPref("privacy.popups.showBrowserMessage", true);':"""
-Показываем информационную линейку, которая предупреждает пользователя 
-что тот или иной pop-up был заблокрован программой. 
-Чтобы не было лишних вопросов почему они не открываются.
-""",
+	#'lockPref("privacy.popups.showBrowserMessage", true);':
+	'privacy.popups.showBrowserMessage#bol#true':
+"""Показывать в верхней часть окна браузера
+ уведомление о блокировки всплывающего окна""",
 	
-	'lockPref("browser.shell.checkDefaultBrowser", false);':"""
-Не проверяем, является ли Mozilla Firefox просмотрщиком по умолчанию, 
-ибо пользователи пугаются при сообщении, что программа 
-не является просмотрщиком по умолчанию.
-""",
+	#'lockPref("browser.shell.checkDefaultBrowser", false);':
+	'browser.shell.checkDefaultBrowser#bool#false':
+"""Не проверять при запуске, 
+является ли Firefox браузером по умолчанию""",
 	
-	'lockPref("security.enable_java", true);':"""
-Включаем Java.
-""",
+	#'lockPref("security.enable_java", true);':"""Использовать Java""",
+	'security.enable_java#bool#true':"""Использовать Java""",
 	
-	'lockPref("javascript.enabled", true);':"""
-Включаем JavaScript.
-""",
+	#'lockPref("javascript.enabled", true);':"""Использовать JavaScript""",
+	'javascript.enabled#bool#true':"""Использовать JavaScript""",
 	
-	'lockPref("security.warn_entering_secure", false);':"""
-Не предупреждаем пользователей, 
-что зашли на сайт через SSL. 
-Все равно не читают этого сообщения.
-""",
+	#'lockPref("security.warn_entering_secure", false);':
+	'security.warn_entering_secure#bool#false':
+"""Не предупреждать о том, что загружается 
+страница, поддерживающая шифрование""",
 	
-	'lockPref("security.warn_leaving_secure", false);':"""
-Не предупреждаем пользователей, 
-что вышли с сайта, на котором лазили через SSL. 
-Все равно не читают этого сообщения.
-""",
+	#'lockPref("security.warn_leaving_secure", false);':"""Не запрашивать разрешение об уходе с защищенной страницы""",
+	'security.warn_leaving_secure#bool#false':"""Не запрашивать разрешение об уходе с защищенной страницы""",
 	
-	'lockPref("security.warn_submit_insecure", false);':"""
-Не пугаем пользователей тем, что их данные, 
-отосланные Plain Text'ом, могут перехватить. 
-(А то будут боятся работать в интернете).
-""",
+	#'lockPref("security.warn_submit_insecure", false);':
+	'security.warn_submit_insecure#bool#false':
+"""Не запрашивать разрешение об отправке
+ данных с защищенной страницы на не защищенную""",
 	
-	'lockPref("browser.tabs.loadInBackground", true);':"""
-Пусть все табы открытые открываются в фоне. 
-(Мне так больше нравится :) )
-""",
+	#'lockPref("browser.tabs.loadInBackground", true);':"""Загружать новые вкладки в фоновом режиме""",
+	'browser.tabs.loadInBackground#bool#true':"""Загружать новые вкладки в фоновом режиме""",
 	
-	'lockPref("browser.tabs.opentabfor.middleclick", true);':"""
-Открываем новые табы щелчком на мышиное колесико.
-""",
+	#'lockPref("browser.tabs.opentabfor.middleclick", true);':"""Открывать новую вкладку при нажатии средней кнопки мыши (колёсика)""",
+	'browser.tabs.opentabfor.middleclick#bool#true':"""Открывать новую вкладку при нажатии средней кнопки мыши (колёсика)""",
 	
-	'lockPref("browser.tabs.warnOnClose", true);':"""
-Предупреждаем юЗверя, что у него отрыты несколько табов,
-а он собрался закрывать Firefox. 
-""",
+	#'lockPref("browser.tabs.warnOnClose", true);':"""Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка""",
+	'browser.tabs.warnOnClose#bool#true':"""Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка""",
 	
-	'lockPref("extensions.update.enabled", false);':"""
-Мы не пользуемся extension'ами, п
-оэтому искать их обновления не будем.
-""",
+	#'lockPref("extensions.update.enabled", false);':"""Не обновлять расширения автоматически""",
+	'extensions.update.enabled#bool#false':"""Не обновлять расширения автоматически""",
 	
-	'lockPref("signon.rememberSignons", false);':"""
-Отказываемся от услуг Password Manager'а. 
-Он дома (и то под вопросом), а не в публичных местах.
-""",
+	#'lockPref("signon.rememberSignons", false);':"""Не сохранять пароли входа на сайты""",
+	'signon.rememberSignons#bool#false':"""Не сохранять пароли входа на сайты""",
 	
-	'lockPref("browser.download.manager.closeWhenDone", true);':"""
-Закрываем download manager, когда все что нужно скачали
-""",
+	#'lockPref("browser.download.manager.closeWhenDone", true);':"""Закрывать Менеджер загрузки при завершении всех загрузок""",
+	'browser.download.manager.closeWhenDone#bool#true':"""Закрывать Менеджер загрузки при завершении всех загрузок""",
 	
-	'lockPref("security.enable_ssl2", true);':"""
-Используем SSL 2.0. На всякий случай.
-""",
+	#'lockPref("security.enable_ssl2", true);':"""Включить поддержку SSL2""",
+	'security.enable_ssl2#bool#true':"""Включить поддержку SSL2""",
 	
-	'lockPref("security.enable_ssl3", true);':"""
-Используем SSL 3.0. Без него никак :)
-""",
+	#'lockPref("security.enable_ssl3", true);':"""Включить поддержку SSL3""",
+	'security.enable_ssl3#bool#true':"""Включить поддержку SSL3""",
 	
-	'lockPref("security.enable_tls", true);':"""
-Не знаю что за протокол. Потом почитаю. 
-Тем не менее, раз он по умолчанию включен, поступим так же :)
-""",
+	#'lockPref("security.enable_tls", true);':"""Включить поддержку TLS""",
+	'security.enable_tls#bool#true':"""Включить поддержку TLS""",
 	
-	'lockPref("signon.prefillForms", false);':"""
-Не заполняем формы паролями автоматически, 
-потому что мы их не сохраняем.
-""",
+	#'lockPref("signon.prefillForms", false);':"""Не подставлять пароли автоматически""",
+	'signon.prefillForms#bool#false':"""Не подставлять пароли автоматически""",
 	
-	'lockPref("signon.expireMasterPassword", true);':"""
-Если кто-то и поставил Master Password в Password Manager'е,
- пусть он пропадет. Не нужно конфигурировать чужой компьютер под себя :)
-""",
+	#'lockPref("signon.expireMasterPassword", true);':"""Не использовать мастер-пароль для сохранённых паролей""",
+	'signon.expireMasterPassword#bool#true':"""Не использовать мастер-пароль для сохранённых паролей""",
 	
-	'lockPref("browser.download.manager.openDelay", 0);':"""
-Всегда показываем download manager, даже если скачивание заняло 1 секунду.
-""",
+	#'lockPref("browser.download.manager.openDelay", 0);':"""Удалять информацию об успешно загруженных файлах из Менеджера загрузки""",
+	'browser.download.manager.openDelay#bool#0':"""Удалять информацию об успешно загруженных файлах из Менеджера загрузки""",
 	
-	'lockPref("browser.download.manager.focusWhenStarting", true);':"""
-Фокусируем download manager, когда начинаем скачивать. :)
-""",
+	#'lockPref("browser.download.manager.focusWhenStarting", true);':"""Делать окно Менеджера загрузки активным при начале новой загрузки""",
+	'browser.download.manager.focusWhenStarting#bool#true':"""Делать окно Менеджера загрузки активным при начале новой загрузки""",
 	
-	'lockPref("browser.download.useDownloadDir", false);':"""
-Пусть пользователь сам выбирает куда ему нужно сохранять файлы. 
-А то бывает кто-то поставить download directory, а другой не понимает, 
-куда скачивается его программка.
-""",
+	#'lockPref("browser.download.useDownloadDir", false);':"""Спрашивать каждый раз куда сохранять файл""",
+	'browser.download.useDownloadDir#bool#false':"""Спрашивать каждый раз куда сохранять файл""",
 	
-	'lockPref("browser.link.open_external", 3);':"""
-Все линки открываются в новом табе.
-( Я так привык :) )
-""",
+	#'lockPref("browser.link.open_external", 3);':"""Открывать все ссылки из внешних приложений в новых вкладках""",
+	'browser.link.open_external#int#3':"""Открывать все ссылки из внешних приложений в новых вкладках""",
 	
-	'lockPref("browser.download.manager.showWhenStarting", true);':"""
-Показываем download manager каждый раз 
-как начинается скачивание файла.
-""",
+	#'lockPref("browser.download.manager.showWhenStarting", true);':"""Открывать Менеджер загрузки в начале загрузки файла""",
+	'browser.download.manager.showWhenStarting#bool#true':"""Открывать Менеджер загрузки в начале загрузки файла""",
 	
-	'lockPref("browser.history_expire_days", 0);':"""
-Не ведем history :)
-""",
+	#'lockPref("browser.history_expire_days", 0);':"""Отключить ведение журнала""",
+	'browser.history_expire_days#int#0':"""Отключить ведение журнала""",
 	
-	'lockPref("xpinstall.enabled", false);':"""
-Не позволяем инсталлировать разного рода extensions.
-"""  }
+	#'lockPref("xpinstall.enabled", false);':"""Запретить установку XPI-пакетов"""  }
+	'xpinstall.enabled#bool#false':"""Запретить установку XPI-пакетов"""  }
 
 	
 #*******************************************************************************
+	#инициация списка опций из реестра опций
 	def load(self):
 		print " loading options from application config files "
 		
-		for opt in self.optionsArray:
-			self.optionsArray_qt[QtCore.QString(opt)]=self.optionsArray[opt]
-			self.set_option(QtCore.QString(opt), False) # <------------ тут надо бы научиться читать конфиг файла и подставлять сюда то что нашли
-#		self.set_option('Опция 2', True)
+		for opt in self.optionsArray_registry:
+			# 	'имя фичи, опции или сама опция#тип#значение по умолчанию'
+			regElementList=QtCore.QString(opt).split("#") #отдает QStringList
+			#regElementList=opt.split("#")
+			regElementListLen=len(regElementList);
+			#print "regElementListLen="+QtCore.QString("%1").arg(regElementListLen);
+			optionName="";
+			optionValueType="string"
+			optionDefValue="";
+			if regElementListLen>=0: 
+				optionName=regElementList[0]
+			if regElementListLen>1: 
+				optionValueType=regElementList[1]  #тип - сейчас не используется, но будет нужен при определении того, сколько и чего отображать в значениях
+			if regElementListLen>2: 
+				optionDefValue=regElementList[2] 
+
+			 #из этого всего следует, что если
+			self.optionsArray_descr_qt[optionName]=self.optionsArray_registry[opt]
+			self.optionsArray_value_qt[optionName]=optionDefValue #self.optionsArray_registry[opt]
+			self.optionsArray_type_qt[optionName]=optionValueType 
+			self.set_option(optionName, False) # <------------ тут надо бы научиться читать конфиг файла и подставлять сюда то что нашли
+
 
 		
 	def save(self):
@@ -238,18 +210,30 @@ class DummyFF(application.Application):
 		
 		rezF="//\n"
 		for opt in self.options.keys():
-			print "dummy: saveopt", QtCore.QString(opt), "=", self.options[QtCore.QString(opt)]
+			rezF0=""
 			if self.options[QtCore.QString(opt)] == True :
-				rezF=rezF+str(opt)
+				#rezF=rezF+str(opt)
+				if (self.optionsArray_type_qt[QtCore.QString(opt)]==QtCore.QString("string")):
+					rezF0=str('lockPref("'+QtCore.QString(opt)+ '","' +self.optionsArray_value_qt[QtCore.QString(opt)]+'");')
+				else:
+					rezF0=str('lockPref("'+QtCore.QString(opt)+ '",' +self.optionsArray_value_qt[QtCore.QString(opt)]+');')
+				rezF=rezF+rezF0
 				rezF=rezF+str("\n")
+				print "dummyFireFox: added (",QtCore.QString(opt),"):"# ,rezF0 
 		
+		print "\n\nTOTAL \n dummyFireFox: \n ", rezF,"\n\n" 
 		f = file(tmpWorkingPath+"mozilla.cfg.txt","w")
 		f.write(str(rezF))
 		f.close()
+
+		
 		
 		print " :::: perl ./moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename
-		os.system("perl ./moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename)
-		# теперь у нас есть файл с настройками пригодный для подсовывания фоксу.
+		rez=os.system("perl ./moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename)
+		if rez!=0:
+			QtGui.QMessageBox.information(None,u"Упс...",u"DВозникла непредвиденная ошибка в ходе выполнения perl ./moz-byteshift.pl. \n\n Обратитесь к системному администратору, или произведите установку программы штатными средствами. \n(скорее всего набор прав perl-скрипта не соответсвует <<755>>)\n\nНажмите [OK] для выхода.",QtGui.QMessageBox.Ok)
+			pass
+		# теперь у нас есть файл с настройками, пригодный для подсовывания фоксу.
 		# его покладем скорее всего в /usr/lib/firefox/ 
 		
 		#вот тут и нужны права рута.
@@ -269,7 +253,7 @@ class DummyFF(application.Application):
 	
 #*******************************************************************************
 def name():
-	return "DUMMY: Firefox 3.5 koisk (probe)"
+	return "DUMMY: Firefox 3.5 kiosk (probe)"
 	
 #*******************************************************************************
 def descr():
@@ -282,10 +266,6 @@ def object():
 	return DummyFF()
 	
 #*******************************************************************************
-	#--------------------------------------------------------------------
-	# TODO: 2010.10.24 from Denjs: 
-	#--------------------------------------------------------------------
-	# Нужен скроллинг внутри окна прилодения. опций много, все уезжает вниз 
 	#--------------------------------------------------------------------
 	# TODO: 2010.10.24 from Denjs: 
 	#--------------------------------------------------------------------
