@@ -48,10 +48,21 @@ class Controller:
 		#
 		#self.treeview = gtk.TreeView(self.treestore)
 		self.treestore=QtGui.QTreeWidget()
-		self.treestore.setColumnCount(3)
+		#self.treestore.setColumnCount(3)
+		#self.treestore.setColumnWidth(0,150)
+		#self.treestore.setColumnWidth(1,350)
+		#self.treestore.setColumnWidth(2,50)
+		
+		self.treestore.setColumnCount(1)
 		self.treestore.setColumnWidth(0,150)
-		self.treestore.setColumnWidth(1,350)
-		self.treestore.setColumnWidth(2,50)
+
+		# Hide table column titles
+		# Note: was introduced in Qt 4.4
+		self.treestore.setHeaderHidden(True)
+
+		# Resize option description by content
+		self.treestore.resizeColumnToContents(0)
+
 		self.treestore.setAlternatingRowColors(True)
 		self.treeview=self.treestore
 
@@ -140,13 +151,20 @@ class Controller:
 			self.treestore.addTopLevelItem(treeWidgetEl)
 			master_iter = treeWidgetEl
 			
+			# Add application options
 			for opt in app.get_options().keys():
 				#self.treestore.append(master_iter, [opt, app.get_descr(opt), app.get_option(opt)])
 				treeWidgetEl2=QtGui.QTreeWidgetItem(treeWidgetEl)
 				treeWidgetEl2.setFlags(treeWidgetEl.flags()|QtCore.Qt.ItemIsUserCheckable)
-				treeWidgetEl2.setText(0,opt)
-				treeWidgetEl2.setText(1,app.get_descr(opt))
-				treeWidgetEl2.setData(2,QtCore.Qt.CheckStateRole,app.get_option(opt))
+				# Checkbox
+				if app.get_option(opt):
+					treeWidgetE12.setCheckState(0, QtCore.Qt.Checked)
+				else:
+					treeWidgetEl2.setCheckState(0, QtCore.Qt.Unchecked)
+				# Option description
+				treeWidgetEl2.setText(0, app.get_descr(opt))
+				# Option key
+				treeWidgetEl2.setData(0, 100, QtCore.QVariant(opt))
 				
 	#def apply_cb(self, button):
 	def apply_cb(self):
@@ -177,7 +195,10 @@ class Controller:
 						
 						#app.set_option(x[0], x[2])
 						#print "cp[00166]",x.text(0),"=", x.text(2)
-						app.set_option(QtCore.QString(x.text(0)), (x.checkState(2)==QtCore.Qt.Checked) )
+						option_key = x.data(0, 100).toString()
+						option_status = (x.checkState(0)==QtCore.Qt.Checked)
+						#print option_key, option_status
+						app.set_option(option_key, option_status)
 						
 					except StopIteration:
 						break
