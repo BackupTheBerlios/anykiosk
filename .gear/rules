@@ -1,1 +1,3 @@
 tar.gz: anykiosk
+copy: anykiosk.pamd
+copy: anykiosk.security

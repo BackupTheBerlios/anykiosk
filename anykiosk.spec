@@ -17,6 +17,8 @@ Url: http://anykiosk.belios.de
 Packager: Andrey Cherepanov <cas@altlinux.org>
 
 Source: anykiosk-0.0.2.20101210.tar.gz
+Source1: %name.pamd
+Source2: %name.security
 
 BuildArch: noarch
 
@@ -25,6 +27,10 @@ BuildPreReq: python-module-PyQt4 >= 4.5
 BuildPreReq: perl 
 BuildPreReq: perl-Encode >= 2.37 
 BuildPreReq: perl-PerlIO >= 1:5.8
+
+# Support ALT Linux consolehelper
+Requires:    consolehelper
+BuildPreReq: libpam-devel
 
 #Requires: python >= 2.5
 #Requires: python-module-PyQt4 >= 4.5
@@ -49,6 +55,8 @@ AnyKiosk - утилита настройки различных программ
 
 %prep
 %setup -q
+cp %SOURCE1 .
+cp %SOURCE2 .
 
 %build
 #python_build
@@ -57,15 +65,22 @@ AnyKiosk - утилита настройки различных программ
 #python_install
 %make_install DESTDIR=%buildroot install
 
+# Adapt for consolehelper
+mkdir -p %buildroot%_sbindir/
+mv %buildroot%_bindir/%name %buildroot%_sbindir
+ln -s %_libexecdir/consolehelper/helper %buildroot%_bindir/%name
+install -pD -m640 %name.pamd %buildroot%_sysconfdir/pam.d/%name
+install -pD -m640 %name.security %buildroot%_sysconfdir/security/console.apps/%name
 
 %files
+%_bindir/%name
+%_sbindir/%name
 %dir %_datadir/%name
 %dir %_datadir/%name/tmp
 %_datadir/%name/*.py
 %_datadir/%name/moz-byteshift.pl
-%_bindir/%name
-
-
+%config(noreplace) %_sysconfdir/pam.d/%name
+%config(noreplace) %_sysconfdir/security/console.apps/%name
 
 %changelog
 * Tue Dec 14 2010 Andrey Cherepanov <cas@altlinux.org> 0.0.2.20101210-alt0.M50P.1
