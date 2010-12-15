@@ -13,155 +13,184 @@ import os
 #+ http://habrahabr.ru/blogs/firefox/21631/
 #+ https://developer.mozilla.org/en/Automatic_Mozilla_Configurator/Locked_config_settings
 #+ http://users.telenet.be/mydotcom/howto/linuxkiosk/webterm02.htm
+#+http://mozutil.mozilla-russia.org/pref/pref_4.html
 class DummyFF(application.Application):
 	
 #*******************************************************************************
-	optionsArray_registry = {
-	#'TEST.OPTION.NAME#TESTTYPE#TESTVALUE':u"""TEST DESCRIPTION""",
 
-	#'lockPref("browser.startup.homepage", "about:blank");':u"""Установить домашнюю страницу пустой (about:blank)""",
-	'browser.startup.homepage#string#about:blank': u"""Установить домашнюю страницу пустой (about:blank)""",
+#'lockPref("security.warn_submit_insecure", false);':
+#'TEST.OPTION.NAME#TESTTYPE#TESTVALUE':u"""TEST DESCRIPTION""",
+
+	optionsArray_registry = {
+
+	'browser.startup.homepage#string#about:blank':
+u"""Адрес домашней страницы : 
+( about:blank = пустая страница)""",
+
+	'browser.tabs.autoHide#bool#false':
+u"""Всегда показывать панель вкладок""",
+
+	'privacy.sanitize.sanitizeOnShutdown#bool#true':
+u"""Удалять личные данные пользователя 
+при закрытии браузера""",
 	
-	#'lockPref("browser.startup.page", 0);':u"""Открывать пустую страницу при запуске браузера""",
-	'browser.startup.page#int#0': u"""Открывать пустую страницу при запуске браузера""",
-	
-	#'lockPref("browser.tabs.autoHide", false);':"""Всегда показывать панель вкладок""",
-	'browser.tabs.autoHide#bool#false':u"""Всегда показывать панель вкладок""",
-	
-	#'lockPref("network.proxy.type",0);':"""Не использовать прокси-сервер""",
-	'network.proxy.type#true#0':u"""Не использовать прокси-сервер""",
-	
-	#'lockPref("privacy.sanitize.sanitizeOnShutdown", true);':"""Всегда удалять личные данные пользователя при закрытии браузера""",
-	'privacy.sanitize.sanitizeOnShutdown#bool#true':u"""Всегда удалять личные данные пользователя при закрытии браузера""",
-	
-	#'lockPref("privacy.sanitize.promptOnSanitize", false);':
 	'privacy.sanitize.promptOnSanitize#bool#false':
-u"""Не спрашивать подтверждение 
+u"""Спрашивать подтверждение 
 перед удалением личных данных пользователя""",
-	
-	#'lockPref("privacy.item.sessions", true);':
+
 	'privacy.item.sessions#bool#true':
-"""Разрешить очистку сеансов SSL 
+u"""Разрешить очистку сеансов SSL 
 в меню Инструменты -> Удалить личные данные""",
 	
-	#'lockPref("privacy.item.passwords", true);':
 	'privacy.item.passwords#bool#true':
-"""Разрешить очистку паролей 
+u"""Разрешить очистку паролей 
 в меню Инструменты -> Удалить личные данные""",
-	
-	#'lockPref("privacy.item.history", true);':
+
 	'privacy.item.history#bool#true':
-"""Разрешить очистку журнала посещений
+u"""Разрешить очистку журнала посещений
 в меню Инструменты -> Удалить личные данные""",
 	
-	#'lockPref("privacy.item.downloads", true);':
 	'privacy.item.downloads#bool#true':
-"""Разрешить очистку журнала загрузок
+u"""Разрешить очистку журнала загрузок
  в меню Инструменты -> Удалить личные данные""",
-	
-	#'lockPref("privacy.item.formdata", true);':
+
 	'privacy.item.formdata#bool#true':
-"""Разрешить очистку данных форм
+u"""Разрешить очистку данных форм
  в меню Инструменты -> Удалить личные данные""",
 	
-	#'lockPref("privacy.item.cookies", true);':
 	'privacy.item.cookies#bool#true':
-"""Разрешить очистку куки (cookies) 
+u"""Разрешить очистку куки (cookies) 
 в меню Инструменты -> Удалить личные данные""",
 	
-	#'lockPref("privacy.item.cache", true);':
 	'privacy.item.cache#bool#true':
-"""Разрешить очистку кэша 
+u"""Разрешить очистку кэша 
 в меню Инструменты -> Удалить личные данные""",
+
 	
-	#'lockPref("browser.formfill.enable", false);':"""Не сохранять введенные в формы и панель поиска данные""",
-	'browser.formfill.enable#bool#false':"""Не сохранять введенные в формы и панель поиска данные""",
+	'browser.formfill.enable#bool#false':
+"""Cохранять введенные в формы 
+и панель поиска данные """,
 	
-	#'lockPref("browser.search.update", false);':"""Не проверять обновления поисковых плагинов""",
-	'browser.search.update#bool#false':"""Не проверять обновления поисковых плагинов""",
-	
-	#'lockPref("privacy.popups.showBrowserMessage", true);':
+	'browser.search.update#bool#false':
+"""Проверять обновления поисковых плагинов""",
+
 	'privacy.popups.showBrowserMessage#bol#true':
-"""Показывать в верхней часть окна браузера
- уведомление о блокировки всплывающего окна""",
+"""Показывать уведомление о блокировке
+ всплывающего окна (в верхней части окна браузера)""",
 	
-	#'lockPref("browser.shell.checkDefaultBrowser", false);':
 	'browser.shell.checkDefaultBrowser#bool#false':
-"""Не проверять при запуске, 
+"""Проверять при запуске, 
 является ли Firefox браузером по умолчанию""",
 	
-	#'lockPref("security.enable_java", true);':"""Использовать Java""",
-	'security.enable_java#bool#true':"""Использовать Java""",
+	'security.enable_java#bool#true':
+"""Использовать Java""",
 	
-	#'lockPref("javascript.enabled", true);':"""Использовать JavaScript""",
-	'javascript.enabled#bool#true':"""Использовать JavaScript""",
+	'javascript.enabled#bool#true':
+"""Использовать JavaScript""",
 	
-	#'lockPref("security.warn_entering_secure", false);':
 	'security.warn_entering_secure#bool#false':
-"""Не предупреждать о том, что загружается 
+"""Предупреждать о том, что загружается 
 страница, поддерживающая шифрование""",
 	
-	#'lockPref("security.warn_leaving_secure", false);':"""Не запрашивать разрешение об уходе с защищенной страницы""",
-	'security.warn_leaving_secure#bool#false':"""Не запрашивать разрешение об уходе с защищенной страницы""",
-	
-	#'lockPref("security.warn_submit_insecure", false);':
+	'security.warn_leaving_secure#bool#false':
+"""Запрашивать разрешение об уходе 
+с защищенной страницы""",
+
 	'security.warn_submit_insecure#bool#false':
-"""Не запрашивать разрешение об отправке
- данных с защищенной страницы на не защищенную""",
+"""Запрашивать разрешение об отправке
+ данных с защищенной страницы 
+на не защищенную""",
 	
-	#'lockPref("browser.tabs.loadInBackground", true);':"""Загружать новые вкладки в фоновом режиме""",
-	'browser.tabs.loadInBackground#bool#true':"""Загружать новые вкладки в фоновом режиме""",
+	'browser.tabs.loadInBackground#bool#true':
+"""Загружать новые вкладки в фоновом режиме""",
 	
-	#'lockPref("browser.tabs.opentabfor.middleclick", true);':"""Открывать новую вкладку при нажатии средней кнопки мыши (колёсика)""",
-	'browser.tabs.opentabfor.middleclick#bool#true':"""Открывать новую вкладку при нажатии средней кнопки мыши (колёсика)""",
+	'browser.tabs.opentabfor.middleclick#bool#true':
+"""Открывать новую вкладку по средней 
+кнопке мыши (колёсику)""",
 	
-	#'lockPref("browser.tabs.warnOnClose", true);':"""Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка""",
-	'browser.tabs.warnOnClose#bool#true':"""Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка""",
+	'browser.tabs.warnOnClose#bool#true':
+"""Спрашивать разрешение о закрытии окна, 
+если открыта более чем одна вкладка""",
+
+	'extensions.update.enabled#bool#false':
+"""Обновлять расширения автоматически""",
 	
-	#'lockPref("extensions.update.enabled", false);':"""Не обновлять расширения автоматически""",
-	'extensions.update.enabled#bool#false':"""Не обновлять расширения автоматически""",
+	'signon.rememberSignons#bool#false':
+"""Сохранять пароли входа на сайты""",
 	
-	#'lockPref("signon.rememberSignons", false);':"""Не сохранять пароли входа на сайты""",
-	'signon.rememberSignons#bool#false':"""Не сохранять пароли входа на сайты""",
+	'browser.download.manager.closeWhenDone#bool#true':
+"""Закрывать Менеджер загрузки 
+при завершении всех загрузок""",
 	
-	#'lockPref("browser.download.manager.closeWhenDone", true);':"""Закрывать Менеджер загрузки при завершении всех загрузок""",
-	'browser.download.manager.closeWhenDone#bool#true':"""Закрывать Менеджер загрузки при завершении всех загрузок""",
+	'security.enable_ssl2#bool#true':
+"""Включить поддержку SSL2""",
 	
-	#'lockPref("security.enable_ssl2", true);':"""Включить поддержку SSL2""",
-	'security.enable_ssl2#bool#true':"""Включить поддержку SSL2""",
+	'security.enable_ssl3#bool#true':
+"""Включить поддержку SSL3""",
 	
-	#'lockPref("security.enable_ssl3", true);':"""Включить поддержку SSL3""",
-	'security.enable_ssl3#bool#true':"""Включить поддержку SSL3""",
+	'security.enable_tls#bool#true':
+"""Включить поддержку TLS""",
 	
-	#'lockPref("security.enable_tls", true);':"""Включить поддержку TLS""",
-	'security.enable_tls#bool#true':"""Включить поддержку TLS""",
+	'signon.prefillForms#bool#false':
+"""Подставлять пароли автоматически""",
 	
-	#'lockPref("signon.prefillForms", false);':"""Не подставлять пароли автоматически""",
-	'signon.prefillForms#bool#false':"""Не подставлять пароли автоматически""",
+	'signon.expireMasterPassword#bool#true':
+"""Использовать мастер-пароль 
+для сохранённых паролей""",
+
+	'browser.download.manager.focusWhenStarting#bool#true':
+"""Делать окно Менеджера загрузки активным
+ при начале новой загрузки""",
 	
-	#'lockPref("signon.expireMasterPassword", true);':"""Не использовать мастер-пароль для сохранённых паролей""",
-	'signon.expireMasterPassword#bool#true':"""Не использовать мастер-пароль для сохранённых паролей""",
+	'browser.download.useDownloadDir#bool#false':
+"""Спрашивать каждый раз куда сохранять файл""",
+
+	'browser.download.manager.showWhenStarting#bool#true':
+"""Открывать Менеджер загрузки 
+ при начале новой загрузки""",
 	
-	#'lockPref("browser.download.manager.openDelay", 0);':"""Удалять информацию об успешно загруженных файлах из Менеджера загрузки""",
-	'browser.download.manager.openDelay#bool#0':"""Удалять информацию об успешно загруженных файлах из Менеджера загрузки""",
+	'xpinstall.enabled#bool#false':
+"""Разрешить  установку XPI-пакетов""" ,
+
+	########################
+	## требуемые к правке ##
+	########################
 	
-	#'lockPref("browser.download.manager.focusWhenStarting", true);':"""Делать окно Менеджера загрузки активным при начале новой загрузки""",
-	'browser.download.manager.focusWhenStarting#bool#true':"""Делать окно Менеджера загрузки активным при начале новой загрузки""",
+	'browser.startup.page#int#0':
+u"""Открывать  при запуске браузера :
+   * 0 - пустую страницу
+   * 1 - домашнюю страница
+   * 2 - последнюю посещенную страница 
+   * 3 - полностью восстанавливать посл. сессию""",
 	
-	#'lockPref("browser.download.useDownloadDir", false);':"""Спрашивать каждый раз куда сохранять файл""",
-	'browser.download.useDownloadDir#bool#false':"""Спрашивать каждый раз куда сохранять файл""",
+	'network.proxy.type#true#0':
+u"""Настройка прокси-сервера? ; число:
+   * 0 - не использовать прокси 
+   * 1 - ручная настройку прокси
+   * 2 - автоматическая конфигурация (PAC)
+   * 4 - автообнаружение прокси
+   * 5 - исп.системные настройки""",
+			
+	'browser.download.manager.openDelay#bool#0':
+"""Когда удалять инф. о загруженных файлах
+ из Менеджера загрузки? ; число
+    * 0 : После успешного окончания загрузки
+    * 1 : При выходе из браузера
+    * 3 : Удалять вручную""",
 	
-	#'lockPref("browser.link.open_external", 3);':"""Открывать все ссылки из внешних приложений в новых вкладках""",
-	'browser.link.open_external#int#3':"""Открывать все ссылки из внешних приложений в новых вкладках""",
+	'browser.link.open_external#int#3':
+"""Каким образом открывать ссылки 
+из внешних приложений?; число
+    * 1 : Открывать в последней вкладке/окне
+    * 2 : В новом окне
+    * 3 : В новой вкладке последнего окна""",
 	
-	#'lockPref("browser.download.manager.showWhenStarting", true);':"""Открывать Менеджер загрузки в начале загрузки файла""",
-	'browser.download.manager.showWhenStarting#bool#true':"""Открывать Менеджер загрузки в начале загрузки файла""",
+	'browser.history_expire_days#int#0':
+"""Количество дней, в течение которых 
+хранится история браузера; число 
+    * 0 = Отключить ведение журнала"""
 	
-	#'lockPref("browser.history_expire_days", 0);':"""Отключить ведение журнала""",
-	'browser.history_expire_days#int#0':"""Отключить ведение журнала""",
-	
-	#'lockPref("xpinstall.enabled", false);':"""Запретить установку XPI-пакетов"""  }
-	'xpinstall.enabled#bool#false':"""Запретить установку XPI-пакетов"""  }
+}
 
 	
 #*******************************************************************************
@@ -187,6 +216,13 @@ u"""Не спрашивать подтверждение
 
 			 #из этого всего следует, что если
 			self.optionsArray_descr_qt[optionName]=self.optionsArray_registry[opt]
+			if optionDefValue=="false":
+				self.optionsArray_descr_qt[optionName]=QtCore.QString("(нет) ")+QtCore.QString(self.optionsArray_descr_qt[optionName]);
+			else:
+				if optionDefValue=="true":
+					self.optionsArray_descr_qt[optionName]=QtCore.QString("(да) ")+QtCore.QString(self.optionsArray_descr_qt[optionName]);
+				else:
+					self.optionsArray_descr_qt[optionName]=QtCore.QString("(%1) ").arg(optionDefValue)+QtCore.QString(self.optionsArray_descr_qt[optionName]);
 			self.optionsArray_value_qt[optionName]=optionDefValue #self.optionsArray_registry[opt]
 			self.optionsArray_type_qt[optionName]=optionValueType 
 			self.set_option(optionName, False) # <------------ тут надо бы научиться читать конфиг файла и подставлять сюда то что нашли
@@ -253,7 +289,7 @@ u"""Не спрашивать подтверждение
 	
 #*******************************************************************************
 def name():
-	return "DUMMY: Firefox 3.5 kiosk (probe)"
+	return u""" Firefox 3.6 Kiosk: заблокировать настройки от изменений. """
 	
 #*******************************************************************************
 def descr():

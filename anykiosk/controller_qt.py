@@ -53,7 +53,7 @@ class Controller:
 		self.treeview=self.treestore
 		
 		help_btn = QtGui.QPushButton(u"Помощь")
-		showKeys_btn = QtGui.QPushButton(u"Показать Ключи")
+		showKeys_btn = QtGui.QPushButton(u"Режим эксперта: Ключи и Значения")
 		apply_btn = QtGui.QPushButton(u"Установить")
 		#restore_btn = QtGui.QPushButton("Restore")
 		close_btn = QtGui.QPushButton(u"Закрыть")
@@ -82,9 +82,17 @@ class Controller:
 		boxLayout.addWidget(button_window)
 
 		self.window.show()
-		self.treestore.setColumnWidth(0,450)
+		self.treestore.setColumnWidth(0,100)
 		self.treestore.setColumnWidth(1,80)
 		self.treestore.setColumnWidth(2,150)
+
+#		self.treestore.setHorizontalHeaderLabels(self, QtGui.QString("Блокируемые опции#Значения опции#Пункт конфига").split("#"))  
+#		(QtGui.QString("Блокируемые опции#Значения опции#Пункт конфига").split("#"))
+#		self.treestore.setVerticalHeaderLabels(QtGui.QString("Блокируемые опции#Значения опции#Пункт конфига").split("#"))
+		headers=[u"Блокируемые (значения) и опции", u"Значения опций", u"Имена пунктов конфиг.файла"]
+        	self.treestore.setHeaderLabels(headers)
+
+		self.treestore.hideColumn(1)
 		self.treestore.hideColumn(2)
 
 	
@@ -140,9 +148,10 @@ class Controller:
 Блокировка подразумевает фиксацию в заданном значении и защиту от изменения, 
 или определенное функциональное ограничение.
 
-Все не отмеченные опции будут сняты с блокировки.
-
 Если блокируемая опция требует определенное  значение - оно указано во второй колонке.
+Если в значении опции стоит false (ложь) - то в описание опции добавляется подсказка (не )
+
+Все не отмеченные опции будут сняты с блокировки .
 
 Кнопка [показать ключи] отображает технические имена пунктов конфигурационного файла,
 (смотрите техническое описание настраиваемой программы).
@@ -156,17 +165,20 @@ class Controller:
 
 
 	def keys_cb(self):
-		widthNewCol=120  # ширина новой колонки
+		widthNewCol1=50  # ширина новой колонки
+		widthNewCol2=120  # ширина новой колонки
 		if self.treestore.isColumnHidden(2):
+			self.treestore.showColumn( 1)
 			self.treestore.showColumn( 2)
-			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)-widthNewCol)
-			self.treestore.setColumnWidth(1,widthNewCol)
-			#print ("def keys_cb: show")
+			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)-(widthNewCol1+widthNewCol2))
+			#self.treestore.setColumnWidth(1,widthNewCol1)
+			#self.treestore.setColumnWidth(2,widthNewCol2)
+			##print ("def keys_cb: show")
 		else:
+			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)+(widthNewCol1+widthNewCol2))
+			self.treestore.hideColumn( 1)
 			self.treestore.hideColumn( 2)
-			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)+widthNewCol)
 			#print ("def keys_cb: hide")
-		
 
 	#def apply_cb(self, button):
 	def apply_cb(self):
