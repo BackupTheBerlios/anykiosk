@@ -17,165 +17,85 @@ class DummyFF(application.Application):
 	
 #*******************************************************************************
 	optionsArray = {
-	'lockPref("browser.startup.homepage", "about:blank");':u"""
-Установить домашнюю страницу пустой (about:blank)
-""",
+	'lockPref("browser.startup.homepage", "about:blank");':u"""Установить домашнюю страницу пустой (about:blank)""",
 	
-	'lockPref("browser.startup.page", 0);':u"""
-Открывать пустую страницу при запуске браузера
-""",
+	'lockPref("browser.startup.page", 0);':u"""Открывать пустую страницу при запуске браузера""",
 	
-	'lockPref("browser.tabs.autoHide", false);':"""
-Всегда показывать панель вкладок
-""",
+	'lockPref("browser.tabs.autoHide", false);':"""Всегда показывать панель вкладок""",
 	
-	'lockPref("network.proxy.type",0);':"""
-Не использовать прокси-сервер
-""",
+	'lockPref("network.proxy.type",0);':"""Не использовать прокси-сервер""",
 	
-	'lockPref("privacy.sanitize.sanitizeOnShutdown", true);':"""
-Всегда удалять личные данные пользователя при закрытии браузера
-""",
+	'lockPref("privacy.sanitize.sanitizeOnShutdown", true);':"""Всегда удалять личные данные пользователя при закрытии браузера""",
 	
-	'lockPref("privacy.sanitize.promptOnSanitize", false);':"""
-Не спрашивать подтверждение перед удалением личных данных пользователя
-""",
+	'lockPref("privacy.sanitize.promptOnSanitize", false);':"""Не спрашивать подтверждение перед удалением личных данных пользователя""",
 	
-	'lockPref("privacy.item.sessions", true);':"""
-Разрешить очистку сеансов SSL в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.sessions", true);':"""Разрешить очистку сеансов SSL в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.passwords", true);':"""
-Разрешить очистку паролей в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.passwords", true);':"""Разрешить очистку паролей в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.history", true);':"""
-Разрешить очистку журнала посещений в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.history", true);':"""Разрешить очистку журнала посещений в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.downloads", true);':"""
-Разрешить очистку журнала загрузок в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.downloads", true);':"""Разрешить очистку журнала загрузок в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.formdata", true);':"""
-Разрешить очистку данных форм в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.formdata", true);':"""Разрешить очистку данных форм в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.cookies", true);':"""
-Разрешить очистку куки (cookies) в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.cookies", true);':"""Разрешить очистку куки (cookies) в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("privacy.item.cache", true);':"""
-Разрешить очистку кэша в меню Инструменты -> Удалить личные данные
-""",
+	'lockPref("privacy.item.cache", true);':"""Разрешить очистку кэша в меню Инструменты -> Удалить личные данные""",
 	
-	'lockPref("browser.formfill.enable", false);':"""
-Не сохранять введенные в формы и панель поиска данные
-""",
+	'lockPref("browser.formfill.enable", false);':"""Не сохранять введенные в формы и панель поиска данные""",
 	
-	'lockPref("browser.search.update", false);':"""
-Не проверять обновления поисковых плагинов
-""",
+	'lockPref("browser.search.update", false);':"""Не проверять обновления поисковых плагинов""",
 	
-	'lockPref("privacy.popups.showBrowserMessage", true);':"""
-Показывать в верхней часть окна браузера уведомление о блокировки всплывающего окна
-""",
+	'lockPref("privacy.popups.showBrowserMessage", true);':"""Показывать в верхней часть окна браузера уведомление о блокировки всплывающего окна""",
 	
-	'lockPref("browser.shell.checkDefaultBrowser", false);':"""
-Не проверять при запуске, является ли Firefox браузером по умолчанию
-""",
+	'lockPref("browser.shell.checkDefaultBrowser", false);':"""Не проверять при запуске, является ли Firefox браузером по умолчанию""",
 	
-	'lockPref("security.enable_java", true);':"""
-Использовать Java.
-""",
+	'lockPref("security.enable_java", true);':"""Использовать Java""",
 	
-	'lockPref("javascript.enabled", true);':"""
-Использовать JavaScript.
-""",
+	'lockPref("javascript.enabled", true);':"""Использовать JavaScript""",
 	
-	'lockPref("security.warn_entering_secure", false);':"""
-Не предупреждать о том, что загружается страница, поддерживающая шифрование
-""",
+	'lockPref("security.warn_entering_secure", false);':"""Не предупреждать о том, что загружается страница, поддерживающая шифрование""",
 	
-	'lockPref("security.warn_leaving_secure", false);':"""
-Не запрашивать разрешение об уходе с защищенной страницы
-""",
+	'lockPref("security.warn_leaving_secure", false);':"""Не запрашивать разрешение об уходе с защищенной страницы""",
 	
-	'lockPref("security.warn_submit_insecure", false);':"""
-Не запрашивать разрешение об отправке данных с защищенной страницы на не защищенную
-""",
+	'lockPref("security.warn_submit_insecure", false);':"""Не запрашивать разрешение об отправке данных с защищенной страницы на не защищенную""",
 	
-	'lockPref("browser.tabs.loadInBackground", true);':"""
-Загружать новые вкладки в фоновом режиме
-""",
+	'lockPref("browser.tabs.loadInBackground", true);':"""Загружать новые вкладки в фоновом режиме""",
 	
-	'lockPref("browser.tabs.opentabfor.middleclick", true);':"""
-Открывать новую вкладку при нажатии средней кнопки мыши (колёсика)
-""",
+	'lockPref("browser.tabs.opentabfor.middleclick", true);':"""Открывать новую вкладку при нажатии средней кнопки мыши (колёсика)""",
 	
-	'lockPref("browser.tabs.warnOnClose", true);':"""
-Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка
-""",
+	'lockPref("browser.tabs.warnOnClose", true);':"""Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка""",
 	
-	'lockPref("extensions.update.enabled", false);':"""
-Не обновлять расширения автоматически
-""",
+	'lockPref("extensions.update.enabled", false);':"""Не обновлять расширения автоматически""",
 	
-	'lockPref("signon.rememberSignons", false);':"""
-Не сохранять пароли входа на сайты
-""",
+	'lockPref("signon.rememberSignons", false);':"""Не сохранять пароли входа на сайты""",
 	
-	'lockPref("browser.download.manager.closeWhenDone", true);':"""
-Закрывать Менеджер загрузки при завершении всех загрузок
-""",
+	'lockPref("browser.download.manager.closeWhenDone", true);':"""Закрывать Менеджер загрузки при завершении всех загрузок""",
 	
-	'lockPref("security.enable_ssl2", true);':"""
-Включить поддержку SSL2
-""",
+	'lockPref("security.enable_ssl2", true);':"""Включить поддержку SSL2""",
 	
-	'lockPref("security.enable_ssl3", true);':"""
-Включить поддержку SSL3
-""",
+	'lockPref("security.enable_ssl3", true);':"""Включить поддержку SSL3""",
 	
-	'lockPref("security.enable_tls", true);':"""
-Включить поддержку TLS 
-""",
+	'lockPref("security.enable_tls", true);':"""Включить поддержку TLS""",
 	
-	'lockPref("signon.prefillForms", false);':"""
-Не подставлять пароли автоматически
-""",
+	'lockPref("signon.prefillForms", false);':"""Не подставлять пароли автоматически""",
 	
-	'lockPref("signon.expireMasterPassword", true);':"""
-Не использовать мастер-пароль для сохранённых паролей
-""",
+	'lockPref("signon.expireMasterPassword", true);':"""Не использовать мастер-пароль для сохранённых паролей""",
 	
-	'lockPref("browser.download.manager.openDelay", 0);':"""
-Удалять информацию об успешно загруженных файлах из Менеджера загрузки
-""",
+	'lockPref("browser.download.manager.openDelay", 0);':"""Удалять информацию об успешно загруженных файлах из Менеджера загрузки""",
 	
-	'lockPref("browser.download.manager.focusWhenStarting", true);':"""
-Делать окно Менеджера загрузки активным при начале новой загрузки
-""",
+	'lockPref("browser.download.manager.focusWhenStarting", true);':"""Делать окно Менеджера загрузки активным при начале новой загрузки""",
 	
-	'lockPref("browser.download.useDownloadDir", false);':"""
-Спрашивать каждый раз куда сохранять файл
-""",
+	'lockPref("browser.download.useDownloadDir", false);':"""Спрашивать каждый раз куда сохранять файл""",
 	
-	'lockPref("browser.link.open_external", 3);':"""
-Открывать все ссылки из внешних приложений в новых вкладках
-""",
+	'lockPref("browser.link.open_external", 3);':"""Открывать все ссылки из внешних приложений в новых вкладках""",
 	
-	'lockPref("browser.download.manager.showWhenStarting", true);':"""
-Открывать Менеджер загрузки в начале загрузки файла
-""",
+	'lockPref("browser.download.manager.showWhenStarting", true);':"""Открывать Менеджер загрузки в начале загрузки файла""",
 	
-	'lockPref("browser.history_expire_days", 0);':"""
-Отключить ведение журнала
-""",
+	'lockPref("browser.history_expire_days", 0);':"""Отключить ведение журнала""",
 	
-	'lockPref("xpinstall.enabled", false);':"""
-Запретить установку XPI-пакетов
-"""  }
+	'lockPref("xpinstall.enabled", false);':"""Запретить установку XPI-пакетов"""  }
 
 	
 #*******************************************************************************
