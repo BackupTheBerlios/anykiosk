@@ -7,7 +7,8 @@ all:
 install: all
 	mkdir -p $(DATADIR)
 	cp -r . $(DATADIR)/
-	chown -R root:root $(DATADIR)/
+	    #temporally block it becouse of rpm build errors:
+	    #chown -R root:root $(DATADIR)/
 	chmod 644 $(DATADIR)/*
 	chmod 744 $(DATADIR)/anykiosk.py
 	
@@ -16,7 +17,8 @@ install: all
 
 	mkdir -p $(DESTDIR)/usr/bin/
 	cp anykiosk $(DESTDIR)/usr/bin/
-	chown -R root:root $(DESTDIR)/usr/bin/anykiosk
+	    #temporally block it becouse of rpm build errors:
+	    #chown -R root:root $(DESTDIR)/usr/bin/anykiosk
 	chmod 744 $(DESTDIR)/usr/bin/anykiosk
 
 	## The following changes should also be performed in a post-install script
