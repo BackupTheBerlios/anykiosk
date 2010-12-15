@@ -11,14 +11,27 @@ Summary: Easy kiosk mode tuning for various programs
 License: GPL
 Group: System/Configuration/Other
 
-Url: http://unixforum.org/index.php?showtopic=117466
+Vendor: UnixForum.org (Denjs & Minoru-kun)
+Url: http://anykiosk.belios.de
 #Packager: Denjs <denjs@users.berlios.de>
 Packager: Andrey Cherepanov <cas@altlinux.org>
 
 Source: anykiosk-0.0.2.20101210.tar.gz
 
 BuildArch: noarch
-BuildPreReq: python python-module-PyQt4 perl perl-PerlIO perl-PerlIO-Util
+
+BuildPreReq: python >= 2.5
+BuildPreReq: python-module-PyQt4 >= 4.5
+BuildPreReq: perl 
+BuildPreReq: perl-Encode >= 2.37 
+BuildPreReq: perl-PerlIO >= 1:5.8
+
+#Requires: python >= 2.5
+#Requires: python-module-PyQt4 >= 4.5
+#Requires: perl 
+#Requires: perl-Encode >= 2.37 
+#Requires: perl-PerlIO >= 1:5.8
+
 #Requires:
 #python-module-setuptools
 
@@ -48,7 +61,7 @@ AnyKiosk - утилита настройки различных программ
 %files
 /usr/share/anykiosk/tmp
 /usr/share/anykiosk/*.py
-#/usr/share/anykiosk/moz-byteshift.pl
+/usr/share/anykiosk/moz-byteshift.pl
 /usr/bin/anykiosk
 
 
