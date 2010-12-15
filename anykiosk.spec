@@ -1,7 +1,7 @@
 #spec for building rpm for alt-linux with gear
 
-%define ver 0.0.2
-%define reldate 20101210
+%define ver 0.0.3
+%define reldate 20101216
 
 Name: anykiosk
 Version: %ver.%reldate
@@ -16,7 +16,7 @@ Url: http://anykiosk.berlios.de
 #Packager: Denjs <denjs@users.berlios.de>
 Packager: Andrey Cherepanov <cas@altlinux.org>
 
-Source: anykiosk-0.0.2.20101210.tar.gz
+Source: anykiosk-0.0.3.20101216.tar.gz
 Source1: %name.pamd
 Source2: %name.security
 
