@@ -3,6 +3,7 @@
 #pygtk.require('2.0')
 from PyQt4 import QtGui,QtCore
 import sys
+import os
 
 class Controller:
 	apps = {}
@@ -10,6 +11,16 @@ class Controller:
 	qapp = QtGui.QApplication(sys.argv)
 	
 	def __init__(self):
+		# check superuser privileges
+		if os.getuid() != 0:
+			QtGui.QMessageBox.critical(None, 
+			    QtGui.qApp.tr("Error"),
+			    QtGui.qApp.tr("This program is required superuser privileges.\nProgram will be terminated now."), 
+			    QtGui.QMessageBox.Ok | QtGui.QMessageBox.Default,
+			    QtGui.QMessageBox.NoButton)
+			self.qapp.quit()
+			sys.exit(1)
+
 		#Хочу русские буквы.))))
 		codec=QtCore.QTextCodec.codecForName('UTF-8')
 		QtCore.QTextCodec.setCodecForTr(codec)
