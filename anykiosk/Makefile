@@ -13,7 +13,7 @@ install: all
 	chmod 744 $(DATADIR)/anykiosk.py
 	
 	#for DUMMY:FF3.5 plugin:
-	chmod 755 $(DATADIR)/moz-byteshift.pl
+	chmod 755 $(DATADIR)/plugins/moz-byteshift.pl
 
 	mkdir -p $(DESTDIR)/usr/bin/
 	cp anykiosk $(DESTDIR)/usr/bin/

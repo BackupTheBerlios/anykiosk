@@ -31,7 +31,7 @@ class Controller:
 		
 		self.window = QtGui.QWidget()
 		self.window.resize(750,440)
-		self.window.setWindowTitle("AnyKiosk. 0.0.3") 
+		self.window.setWindowTitle("AnyKiosk. 0.0.4") 
 		self.window.setLayout(boxLayout)
 		
 		
@@ -82,7 +82,7 @@ class Controller:
 		boxLayout.addWidget(button_window)
 
 		self.window.show()
-		self.treestore.setColumnWidth(0,100)
+		self.treestore.setColumnWidth(0,600)
 		self.treestore.setColumnWidth(1,80)
 		self.treestore.setColumnWidth(2,150)
 
@@ -92,7 +92,7 @@ class Controller:
 		headers=[u"Блокируемые (значения) и опции", u"Значения опций", u"Имена пунктов конфиг.файла"]
         	self.treestore.setHeaderLabels(headers)
 
-		self.treestore.hideColumn(1)
+		#self.treestore.hideColumn(1)
 		self.treestore.hideColumn(2)
 
 	
@@ -165,10 +165,10 @@ class Controller:
 
 
 	def keys_cb(self):
-		widthNewCol1=50  # ширина новой колонки
+		widthNewCol1=0  # ширина новой колонки
 		widthNewCol2=120  # ширина новой колонки
 		if self.treestore.isColumnHidden(2):
-			self.treestore.showColumn( 1)
+			#self.treestore.showColumn( 1)
 			self.treestore.showColumn( 2)
 			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)-(widthNewCol1+widthNewCol2))
 			#self.treestore.setColumnWidth(1,widthNewCol1)
@@ -176,7 +176,7 @@ class Controller:
 			##print ("def keys_cb: show")
 		else:
 			self.treestore.setColumnWidth(0,self.treestore.columnWidth(0)+(widthNewCol1+widthNewCol2))
-			self.treestore.hideColumn( 1)
+			#self.treestore.hideColumn( 1)
 			self.treestore.hideColumn( 2)
 			#print ("def keys_cb: hide")
 

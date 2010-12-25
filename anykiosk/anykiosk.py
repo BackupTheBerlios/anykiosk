@@ -55,6 +55,12 @@ import os, sys
 import controller_qt
 import application
 
+#допишем в каталоги откуда импортирвать плагины наш спец каталог с плагинами.
+import sys
+import os
+sys.path.append(os.getcwd()+'/plugins')
+
+
 #-- plugin imports
 import dummyFF
 #--
@@ -63,7 +69,6 @@ controller = controller_qt.Controller()
 #-- plugin initializations here
 controller.register_app(dummyFF)
 #--
-
 
 controller.proceed()
 controller.main()

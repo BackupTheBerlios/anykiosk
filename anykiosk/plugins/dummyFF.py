@@ -24,171 +24,142 @@ class DummyFF(application.Application):
 	optionsArray_registry = {
 
 	'browser.startup.homepage#string#about:blank':
-u"""Адрес домашней страницы : 
-( about:blank = пустая страница)""",
+u"""Адрес домашней страницы : ( about:blank = пустая страница)?""",
 
 	'browser.tabs.autoHide#bool#false':
-u"""Всегда показывать панель вкладок""",
+u"""Всегда показывать панель вкладок?""",
 
 	'privacy.sanitize.sanitizeOnShutdown#bool#true':
 u"""Удалять личные данные пользователя 
-при закрытии браузера""",
+при закрытии браузера?""",
 	
 	'privacy.sanitize.promptOnSanitize#bool#false':
 u"""Спрашивать подтверждение 
-перед удалением личных данных пользователя""",
+перед удалением личных данных пользователя?""",
 
 	'privacy.item.sessions#bool#true':
 u"""Разрешить очистку сеансов SSL 
-в меню Инструменты -> Удалить личные данные""",
+в меню Инструменты -> Удалить личные данные?""",
 	
 	'privacy.item.passwords#bool#true':
 u"""Разрешить очистку паролей 
-в меню Инструменты -> Удалить личные данные""",
+в меню Инструменты -> Удалить личные данные?""",
 
 	'privacy.item.history#bool#true':
 u"""Разрешить очистку журнала посещений
-в меню Инструменты -> Удалить личные данные""",
+в меню Инструменты -> Удалить личные данные?""",
 	
 	'privacy.item.downloads#bool#true':
 u"""Разрешить очистку журнала загрузок
- в меню Инструменты -> Удалить личные данные""",
+ в меню Инструменты -> Удалить личные данные?""",
 
 	'privacy.item.formdata#bool#true':
 u"""Разрешить очистку данных форм
- в меню Инструменты -> Удалить личные данные""",
+ в меню Инструменты -> Удалить личные данные?""",
 	
 	'privacy.item.cookies#bool#true':
 u"""Разрешить очистку куки (cookies) 
-в меню Инструменты -> Удалить личные данные""",
+в меню Инструменты -> Удалить личные данные?""",
 	
 	'privacy.item.cache#bool#true':
 u"""Разрешить очистку кэша 
-в меню Инструменты -> Удалить личные данные""",
+в меню Инструменты -> Удалить личные данные?""",
 
 	
 	'browser.formfill.enable#bool#false':
 """Cохранять введенные в формы 
-и панель поиска данные """,
+и панель поиска данные? """,
 	
 	'browser.search.update#bool#false':
-"""Проверять обновления поисковых плагинов""",
+"""Проверять обновления поисковых плагинов?""",
 
 	'privacy.popups.showBrowserMessage#bol#true':
 """Показывать уведомление о блокировке
- всплывающего окна (в верхней части окна браузера)""",
+ всплывающего окна (в верхней части окна браузера)?""",
 	
 	'browser.shell.checkDefaultBrowser#bool#false':
 """Проверять при запуске, 
-является ли Firefox браузером по умолчанию""",
+является ли Firefox браузером по умолчанию?""",
 	
 	'security.enable_java#bool#true':
-"""Использовать Java""",
+"""Использовать Java?""",
 	
 	'javascript.enabled#bool#true':
-"""Использовать JavaScript""",
+"""Использовать JavaScript?""",
 	
 	'security.warn_entering_secure#bool#false':
 """Предупреждать о том, что загружается 
-страница, поддерживающая шифрование""",
+страница, поддерживающая шифрование?""",
 	
 	'security.warn_leaving_secure#bool#false':
-"""Запрашивать разрешение об уходе 
-с защищенной страницы""",
+"""Запрашивать разрешение об уходе с защищенной страницы?""",
 
 	'security.warn_submit_insecure#bool#false':
-"""Запрашивать разрешение об отправке
- данных с защищенной страницы 
-на не защищенную""",
+"""Запрашивать разрешение об отправке данных с защищенной страницы на не защищенную?""",
 	
 	'browser.tabs.loadInBackground#bool#true':
-"""Загружать новые вкладки в фоновом режиме""",
+"""Загружать новые вкладки в фоновом режиме?""",
 	
 	'browser.tabs.opentabfor.middleclick#bool#true':
-"""Открывать новую вкладку по средней 
-кнопке мыши (колёсику)""",
+"""Открывать новую вкладку по средней кнопке мыши (колёсику)""",
 	
 	'browser.tabs.warnOnClose#bool#true':
-"""Спрашивать разрешение о закрытии окна, 
-если открыта более чем одна вкладка""",
+"""Спрашивать разрешение о закрытии окна, если открыта более чем одна вкладка?""",
 
 	'extensions.update.enabled#bool#false':
-"""Обновлять расширения автоматически""",
+"""Обновлять расширения автоматически?""",
 	
 	'signon.rememberSignons#bool#false':
-"""Сохранять пароли входа на сайты""",
+"""Сохранять пароли входа на сайты?""",
 	
 	'browser.download.manager.closeWhenDone#bool#true':
-"""Закрывать Менеджер загрузки 
-при завершении всех загрузок""",
+"""Закрывать Менеджер загрузки при завершении всех загрузок?""",
 	
 	'security.enable_ssl2#bool#true':
-"""Включить поддержку SSL2""",
+"""Включить поддержку SSL2?""",
 	
 	'security.enable_ssl3#bool#true':
-"""Включить поддержку SSL3""",
+"""Включить поддержку SSL3?""",
 	
 	'security.enable_tls#bool#true':
-"""Включить поддержку TLS""",
+"""Включить поддержку TLS?""",
 	
 	'signon.prefillForms#bool#false':
-"""Подставлять пароли автоматически""",
+"""Подставлять пароли автоматически?""",
 	
 	'signon.expireMasterPassword#bool#true':
-"""Использовать мастер-пароль 
-для сохранённых паролей""",
+"""Использовать мастер-пароль для сохранённых паролей?""",
 
 	'browser.download.manager.focusWhenStarting#bool#true':
-"""Делать окно Менеджера загрузки активным
- при начале новой загрузки""",
+"""Делать окно Менеджера загрузки активным при начале новой загрузки?""",
 	
 	'browser.download.useDownloadDir#bool#false':
-"""Спрашивать каждый раз куда сохранять файл""",
+"""Спрашивать каждый раз куда сохранять файл?""",
 
 	'browser.download.manager.showWhenStarting#bool#true':
-"""Открывать Менеджер загрузки 
- при начале новой загрузки""",
+"""Открывать Менеджер загрузки при начале новой загрузки?""",
 	
 	'xpinstall.enabled#bool#false':
-"""Разрешить  установку XPI-пакетов""" ,
+"""Разрешить  установку XPI-пакетов?""" ,
 
 	########################
 	## требуемые к правке ##
 	########################
 	
-	'browser.startup.page#int#0':
-u"""Открывать  при запуске браузера :
-   * 0 - пустую страницу
-   * 1 - домашнюю страница
-   * 2 - последнюю посещенную страница 
-   * 3 - полностью восстанавливать посл. сессию""",
+	'browser.startup.page#{0:пустую страницу;1:домашнюю страница;2:последнюю посещенную страница;3:полностью восстанавливать посл. сессию}#0':
+u"""Что открывать при запуске браузера?""",
 	
-	'network.proxy.type#true#0':
-u"""Настройка прокси-сервера? ; число:
-   * 0 - не использовать прокси 
-   * 1 - ручная настройку прокси
-   * 2 - автоматическая конфигурация (PAC)
-   * 4 - автообнаружение прокси
-   * 5 - исп.системные настройки""",
+	'network.proxy.type#{0:не использовать прокси;1:ручная настройку прокси;2:автоматическая конфигурация (PAC);4:автообнаружение прокси;5:исп.системные настройки}true#0':
+u"""Настройка прокси-сервера:""",
 			
-	'browser.download.manager.openDelay#bool#0':
-"""Когда удалять инф. о загруженных файлах
- из Менеджера загрузки? ; число
-    * 0 : После успешного окончания загрузки
-    * 1 : При выходе из браузера
-    * 3 : Удалять вручную""",
+	'browser.download.manager.openDelay#{0:После успешного окончания загрузки;1:При выходе из браузера;3:Удалять вручную}#0':
+"""Удаление инф. о загруженных файлах из Менеджера загрузки?""",
 	
-	'browser.link.open_external#int#3':
-"""Каким образом открывать ссылки 
-из внешних приложений?; число
-    * 1 : Открывать в последней вкладке/окне
-    * 2 : В новом окне
-    * 3 : В новой вкладке последнего окна""",
+	'browser.link.open_external#{1:Открывать в последней вкладке/окне;2:В новом окне;3:В новой вкладке последнего окна}#3':
+"""Как открывать ссылки из внешних приложений?""",
 	
 	'browser.history_expire_days#int#0':
-"""Количество дней, в течение которых 
-хранится история браузера; число 
-    * 0 = Отключить ведение журнала"""
+"""Количество дней, в течение которых хранится история браузера?(0 = не вести журнал)"""
 	
 }
 
@@ -217,12 +188,12 @@ u"""Настройка прокси-сервера? ; число:
 			 #из этого всего следует, что если
 			self.optionsArray_descr_qt[optionName]=self.optionsArray_registry[opt]
 			if optionDefValue=="false":
-				self.optionsArray_descr_qt[optionName]=QtCore.QString("(нет) ")+QtCore.QString(self.optionsArray_descr_qt[optionName]);
+				self.optionsArray_descr_qt[optionName]=QtCore.QString("")+QtCore.QString(self.optionsArray_descr_qt[optionName]);
 			else:
 				if optionDefValue=="true":
-					self.optionsArray_descr_qt[optionName]=QtCore.QString("(да) ")+QtCore.QString(self.optionsArray_descr_qt[optionName]);
+					self.optionsArray_descr_qt[optionName]=QtCore.QString("")+QtCore.QString(self.optionsArray_descr_qt[optionName]);
 				else:
-					self.optionsArray_descr_qt[optionName]=QtCore.QString("(%1) ").arg(optionDefValue)+QtCore.QString(self.optionsArray_descr_qt[optionName]);
+					self.optionsArray_descr_qt[optionName]=QtCore.QString("").arg(optionDefValue)+QtCore.QString(self.optionsArray_descr_qt[optionName]);
 			self.optionsArray_value_qt[optionName]=optionDefValue #self.optionsArray_registry[opt]
 			self.optionsArray_type_qt[optionName]=optionValueType 
 			self.set_option(optionName, False) # <------------ тут надо бы научиться читать конфиг файла и подставлять сюда то что нашли
@@ -240,7 +211,9 @@ u"""Настройка прокси-сервера? ; число:
 		pathToPutMozillaCFG="/usr/lib/firefox/"
 		mozillaCFGFilename="mozilla.kioskmode.cfg"
 		#---------------------------------------------------------------------------
+		#все относительные пути - относительно раб. каталога программы - каталога с anykiosk.py
 		tmpWorkingPath="./tmp/"
+		pluginPath="./plugins/"
 		
 		print " saving options to application config files "
 		
@@ -264,8 +237,8 @@ u"""Настройка прокси-сервера? ; число:
 
 		
 		
-		print " :::: perl ./moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename
-		rez=os.system("perl ./moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename)
+		print " :::: perl "+pluginPath+"moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename
+		rez=os.system("perl "+pluginPath+"moz-byteshift.pl -s 13 <"+tmpWorkingPath+"mozilla.cfg.txt >"+tmpWorkingPath+mozillaCFGFilename)
 		if rez!=0:
 			QtGui.QMessageBox.information(None,u"Упс...",u"DВозникла непредвиденная ошибка в ходе выполнения perl ./moz-byteshift.pl. \n\n Обратитесь к системному администратору, или произведите установку программы штатными средствами. \n(скорее всего набор прав perl-скрипта не соответсвует <<755>>)\n\nНажмите [OK] для выхода.",QtGui.QMessageBox.Ok)
 			pass
@@ -289,7 +262,7 @@ u"""Настройка прокси-сервера? ; число:
 	
 #*******************************************************************************
 def name():
-	return u""" Firefox 3.6 Kiosk: заблокировать настройки от изменений. """
+	return u"""Заблокировать от изменений настройки Firefox 3.6 """
 	
 #*******************************************************************************
 def descr():
