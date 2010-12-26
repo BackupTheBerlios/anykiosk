@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 from PyQt4 import QtGui,QtCore
+
 class Application:
 	name = "default"
-	
+	config = 0 #for config file object from ConfigParser
 #Это прототип всех "плагинов". Содержит общие мехаихмы для работы со списком опций, реестром опций и  т.п.
 
 # каждая опция (пункт)может быть включена или выключена.

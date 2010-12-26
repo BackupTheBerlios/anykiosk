@@ -31,7 +31,7 @@ class Controller:
 		
 		self.window = QtGui.QWidget()
 		self.window.resize(750,440)
-		self.window.setWindowTitle("AnyKiosk. 0.0.4") 
+		self.window.setWindowTitle("AnyKiosk. 0.0.5") 
 		self.window.setLayout(boxLayout)
 		
 		

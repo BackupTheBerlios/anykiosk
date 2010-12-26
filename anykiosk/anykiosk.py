@@ -55,11 +55,34 @@ import os, sys
 import controller_qt
 import application
 
+import os
+#подготовка к разбору глобального ини-файл
+try: #for python 2.5
+    import ConfigParser
+except:
+    try: #for python 3.0
+	import configparser
+    except:
+	print "can`t load ConfigParser module."
+	exit(0)
+
+globalConfig = ConfigParser.ConfigParser()
+globalConfig.read('anykiosk.ini')
+#print "tmppath=", globalConfig.get('anykiosk.main','tmppath')
+
+pluginDir=globalConfig.get('anykiosk.main','pluginSubDir')#'./plugins'
+tmpDir=globalConfig.get('anykiosk.main','tmpPath')#'./tmp'
+
+#print "pluginDir :", pluginDir
+#print "tmpDir :", tmpDir
+
 #допишем в каталоги откуда импортирвать плагины наш спец каталог с плагинами.
 import sys
 import os
-sys.path.append(os.getcwd()+'/plugins')
-
+if pluginDir.startswith(".") or not pluginDir.startswith("/"):
+    sys.path.append(os.getcwd()+'/'+pluginDir)
+else :
+    sys.path.append(pluginDir)
 
 #-- plugin imports
 import dummyFF

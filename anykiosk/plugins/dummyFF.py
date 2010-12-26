@@ -167,7 +167,31 @@ u"""Настройка прокси-сервера:""",
 #*******************************************************************************
 	#инициация списка опций из реестра опций
 	def load(self):
-		print " loading options from application config files "
+		#подготовка к разбору глобального ини-файл
+		try: #for python 2.5
+		    import ConfigParser
+		except:
+		    try: #for python 3.0
+	    	        import configparser
+		    except:
+			print "can`t load ConfigParser module."
+			exit(0)
+		
+		self.globalConfig = ConfigParser.ConfigParser()
+		self.globalConfig.read('anykiosk.ini')
+		
+		#все относительные пути - относительно раб. каталога программы - каталога с anykiosk.py
+		tmpWorkingPath=self.globalConfig.get('anykiosk.main','tmpPath') #tmpWorkingPath="./tmp/"
+		pluginPath=self.globalConfig.get('anykiosk.main','pluginSubDir') #pluginPath="./plugins/"
+		self.distrProfile=self.globalConfig.get('anykiosk.main','distrProfile')
+
+		print "load()::pluginPath=",  pluginPath
+		
+		self.config = ConfigParser.ConfigParser()
+		self.config.read(''+ pluginPath+'/dummyFF.ini')
+		#print "tmppath=",self.config.get('anykiosk.main','tmppath')
+
+		print " DummyFF :loading options from application config files "
 		
 		for opt in self.optionsArray_registry:
 			# 	'имя фичи, опции или сама опция#тип#значение по умолчанию'
@@ -205,15 +229,21 @@ u"""Настройка прокси-сервера:""",
 		#---------------------------------------------------------------------------
 		# Пути проверены только для ПСПО5  
 		#---------------------------------------------------------------------------
-		pathToPutLocaSettingsJS="/usr/lib/firefox/defaults/preferences/"
-		locaSettingsJSFilename="local-settings.kioskmode.js"
+		pathToPutLocaSettingsJS=self.config.get('dummyFF.main'+self.distrProfile,'pathToPutLocaSettingsJS')
+		#pathToPutLocaSettingsJS="/usr/lib/firefox/defaults/preferences/"
+		locaSettingsJSFilename=self.config.get('dummyFF.main'+self.distrProfile,'locaSettingsJSFilename')
+		#locaSettingsJSFilename="local-settings.kioskmode.js"
 		#---------------------------------------------------------------------------
-		pathToPutMozillaCFG="/usr/lib/firefox/"
-		mozillaCFGFilename="mozilla.kioskmode.cfg"
+		pathToPutMozillaCFG=self.config.get('dummyFF.main'+self.distrProfile,'pathToPutMozillaCFG')
+		#pathToPutMozillaCFG="/usr/lib/firefox/"
+		mozillaCFGFilename=self.config.get('dummyFF.main'+self.distrProfile,'mozillaCFGFilename')
+		#mozillaCFGFilename="mozilla.kioskmode.cfg"
 		#---------------------------------------------------------------------------
 		#все относительные пути - относительно раб. каталога программы - каталога с anykiosk.py
-		tmpWorkingPath="./tmp/"
-		pluginPath="./plugins/"
+		tmpWorkingPath=self.globalConfig.get('anykiosk.main','tmpPath') 
+		#tmpWorkingPath="./tmp/"
+		pluginPath=self.globalConfig.get('anykiosk.main','pluginSubDir') 
+		#pluginPath="./plugins/"
 		
 		print " saving options to application config files "
 		
