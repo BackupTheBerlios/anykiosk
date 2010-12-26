@@ -69,6 +69,7 @@ class Application:
 		#мы не знаем что нам передали. потому попробуем плучить QString явно...
 		if QtCore.QString(opt) in self.optionsArray_value_qt:
 			self.optionsArray_value_qt[QtCore.QString(opt)]=value 
+		retv=True
 		return retv
 
 	# Получить значение опции
@@ -88,7 +89,14 @@ class Application:
 			retv=self.optionsArray_descr_qt[QtCore.QString(opt)] #
 		return retv
 
-	
+	# Получить описание типа
+	def get_type(self, opt):
+		retv="";
+		#мы не знаем что нам передали. потому попробуем плучить QString явно...
+		if QtCore.QString(opt) in self.optionsArray_descr_qt:
+			retv=self.optionsArray_type_qt[QtCore.QString(opt)] #
+		return retv
+
 	def checks(self):
 		pass
 	

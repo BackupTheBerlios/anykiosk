@@ -16,7 +16,7 @@ class Controller:
 		QtCore.QTextCodec.setCodecForTr(codec)
 		QtCore.QTextCodec.setCodecForCStrings(codec)
 		QtCore.QTextCodec.setCodecForLocale(codec)
-
+		
 		# check superuser privileges
 		if os.getuid() != 0:
 			QtGui.QMessageBox.critical(None, 
@@ -41,7 +41,7 @@ class Controller:
 		
 		self.treestore=QtGui.QTreeWidget()
 		self.treestore.setColumnCount(3)  #check&description; value; tech-key
-
+		
 		# Hide table column titles
 		# Note: was introduced in Qt 4.4
 #		self.treestore.setHeaderHidden(True)
@@ -63,8 +63,8 @@ class Controller:
 		QtCore.QObject.connect( close_btn, QtCore.SIGNAL("clicked()"), self.close_cb )
 		QtCore.QObject.connect( showKeys_btn, QtCore.SIGNAL("clicked()"), self.keys_cb )
 		QtCore.QObject.connect( help_btn, QtCore.SIGNAL("clicked()"), self.help_cb )
+		QtCore.QObject.connect( self.treestore, QtCore.SIGNAL("itemDoubleClicked(QTreeWidgetItem *,int)"), self.itemDblClicked_cb )
 		
-
 		boxLayout.addWidget(self.treeview)
 
 		button_hboxLayout = QtGui.QBoxLayout(QtGui.QBoxLayout.LeftToRight);
@@ -213,6 +213,97 @@ class Controller:
 			except IndexError:
 				break
 	
+	#обработка двойного клика
+	def itemDblClicked_cb(self, qTreeWidgetItem, column):
+		parentWidget=qTreeWidgetItem.parent()
+		if parentWidget==0:
+			pass
+		#теперь от родительского элемента получим приложение
+		app_name=parentWidget.text(0)
+		app=self.apps[app_name]
+		#и получим ключ, галочку активности...
+		option_key = qTreeWidgetItem.data(0, 100).toString()
+		option_status = (qTreeWidgetItem.checkState(0)==QtCore.Qt.Checked)
+		#print '::dpl Click for app['+unicode(app_name) + "] option ["+unicode(option_key)+"] "
+		#... значение блокируемой опции
+		option_value = app.get_value(option_key)
+		option_type = app.get_type(option_key)
+		option_descr = app.get_descr(option_key)
+		print '::OLD VALUE:: option ['+unicode(option_key)+"] value ["+unicode(option_value)+"] type ["+unicode(option_type)+"]"
+		
+		#теперь надо разобрать тип и вывести меню выбора значения
+		print "TODO: controller_qt.py::[00234] doubleClick TODO"
+		option_value_new=option_value;
+		#TODO: СДЕЛАТЬ ПРОВЕРКУ НА ОТКАЗ ВВОДА
+		if option_type=="string":
+			option_value_new,okSel=QtGui.QInputDialog.getText(None, u'Введите значение (строка)', u'Введите значение для \n\n'+option_descr+"", 0, option_value_new)
+			if okSel==False:
+			    option_value_new=option_value
+			option_value_new=unicode(option_value_new)
+			
+		elif option_type=="int":
+			try:
+			    intValue=int(option_value)
+			except:
+			    intValue=0
+			
+			option_value_new, okSel=QtGui.QInputDialog.getInt(None, u'Введите значение (число)', u'Введите значение для \n\n'+option_descr+"", intValue )
+			#print "RAW option_value_new = ["+ unicode(option_value_new)+"]"
+			option_value_new=unicode(option_value_new)
+			if okSel==False:
+			    option_value_new=option_value
+			print "RES option_value_new = ["+ option_value_new+"]"
+			
+		elif option_type=="bool":
+			items=QtCore.QStringList();
+			cTrueString=u"True: Да,Истина"
+			items.append(cTrueString)
+			items.append(u"False: Нет,Ложь")
+			current_option_value=0
+			if option_value=='false': #в javascript true/false с маленкой буквы
+			    current_option_value=1
+			option_value_new,okSel=QtGui.QInputDialog.getItem(None, u'Введите значение (истина/ложь)', u'Введите значение для \n\n'+option_descr+"", items, current_option_value )
+			if okSel==False:
+			    option_value_new=option_value
+			elif option_value_new==cTrueString:
+			    option_value_new="true"
+			else:
+			    option_value_new="false"
+			#option_value_new=unicode(option_value_new).split(":")[0]
+			
+		elif unicode(option_type).startswith("{"): #перечисленне в виде {значение:описание;значение:описание;}
+			items=QtCore.QStringList();
+			#tmp_val=unicode(option_type).chop(1)
+			current_option_value_index=0
+			cpos_count=0
+			for val in unicode(option_type).split(";"):
+			    
+			    if val[0]=="{":
+				val=val[1:]
+			    if val[-1]=="}":
+				val=val[:-1]
+			    if val.startswith(option_value):
+				current_option_value_index=cpos_count
+			    cpos_count+=1
+			    items.append(val)
+			#items.append(u"1: второе значение")
+			option_value_new, okSel=QtGui.QInputDialog.getItem(None, u'Выберите значение', u'Введите значение для \n'+option_descr+"", items, current_option_value_index )
+			
+			#print "RAW option_value_new = ["+ unicode(option_value_new)+"]"
+			if okSel==False:
+			    option_value_new=option_value
+			option_value_new=unicode(option_value_new).split(":")[0]
+			
+		#выведем устанавливаемое значение 
+		print u"устанавливаемое значение:"
+		print '::NEW VALUE:: option ['+unicode(option_key)+"] value ["+unicode(option_value_new)+"] type ["+unicode(option_type)+"]"
+		
+		app.set_value(option_key,option_value_new)
+		qTreeWidgetItem.setText(1,option_value_new)
+			
+		#if column == 1 :
+			
+			
 	#def close_cb(self, button):
 	def close_cb(self):
 		self.qapp.quit();
